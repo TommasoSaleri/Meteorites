@@ -28,3 +28,11 @@ for elem in dati_meteoriti:
 
 #print(masse)
 #print(anni)
+
+plt.figure(figsize=(10, 6))
+plt.scatter(anni, masse, alpha=0.5)
+plt.xlabel("Anno di Ritrovamento")
+plt.ylabel("Massa (g)")
+plt.title("Relazione tra Massa e Anno di Ritrovamento dei Meteoriti")
+plt.grid(True)
+plt.show()
