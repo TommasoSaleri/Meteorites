@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import json, folium
 from folium.plugins import MarkerCluster
+from folium.plugins import HeatMap
 
 file_name = "meteorites.json"
 
@@ -22,18 +23,18 @@ lat = []
 long = []
 
 for elem in dati_meteoriti:
-    if(elem["mass"] is None or elem["mass"]!=elem["mass"]):
-        continue
-    masse.append(elem["mass"])
-    if(elem["year"] is None or elem["year"]!=elem["year"]):
-        continue
-    anni.append(elem["year"])
-    if(elem["lat"] is None or elem["lat"]!=elem["lat"]):
-        continue
-    lat.append(float(elem["lat"]))
-    if(elem["long"] is None or elem["long"]!=elem["long"]):
-        continue
-    long.append(float(elem["long"]))
+    massa = elem["mass"]
+    anno = elem["year"]
+    lat_uno = elem["lat"]
+    long_uno = elem["long"]
+    if(not(massa is None or massa!=massa)):
+        masse.append(massa)
+    if(not(anno is None or anno!=anno)):
+        anni.append(anno)
+    if(not(lat is None or lat_uno!=lat_uno)):
+        lat.append(float(lat_uno))
+    if(not(long_uno is None or long_uno!=long_uno)):
+        long.append(float(long_uno))
 
 #print(masse)
 #print(anni)
@@ -63,3 +64,15 @@ for elem in dati_meteoriti:
     ).add_to(marker_cluster)
 
 m.save("meteorites.html")
+
+coordinate = []
+for elem in dati_meteoriti:
+    lat = elem["lat"]
+    long = elem["long"]
+    if(lat is None or lat!=lat or long is None or long!=long):
+        continue
+    coordinate.append([lat, long])
+
+mappa_calore = folium.Map(location = [lat_media, long_media], zoom_start = 2)
+HeatMap(coordinate).add_to(mappa_calore)
+mappa_calore.save("meteorites-heatmap.html")
