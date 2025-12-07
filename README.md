@@ -1,21 +1,48 @@
-I file Python generano diverse mappe a partire da circa 45.000 meteoriti.
-Il problema principale nasce quando si prova a inserire tutti questi punti come Marker sulla mappa Folium.
-Folium riesce comunque a creare i file, ma il browser poi deve caricare più di 45.000 elementi grafici:
-questo causa attese molto lunghe, caricamenti che vanno a buon fine solo raramente e, quasi sempre, il blocco completo della pagina appena ci si muove sulla mappa.
+## Descrizione del problema
 
-Entrambi gli script producono una mappa di calore.
-Questa funziona senza problemi, perché la heatmap gestisce i dati in modo molto più leggero.
+Il dataset contiene circa **45.000 meteorit**i, ognuno con coordinate geografiche.
+La generazione delle mappe con **Folium** può risultare molto pesante quando ogni meteorite viene rappresentato come **Marker singolo**.
 
-Lo script nella cartella “analisi con raggruppamento dei meteoriti” adotta un sistema che raggruppa i punti sulla mappa.
-Questo approccio permette di:
-  caricare la mappa velocemente;
-  zoomare per vedere i meteoriti singolarmente;
-  esplorare i dati senza rallentamenti;
-È la versione più pratica se si vuole analizzare la caduta dei singoli meteoriti.
+L’esecuzione degli script Python termina correttamente e produce tutti i file previsti, ma:
 
-Lo script nella cartella “analisi con meteoriti singoli” crea comunque due mappe (marker singoli + heatmap), ma la mappa con i singoli marker non effettua alcun raggruppamento.
-Il risultato è prevedibile:
-  più di 45.000 marker da caricare;
-  caricamento molto difficile o impossibile;
-  blocco del browser appena si interagisce con la mappa;
-Per questo motivo è sconsigliato utilizzare la mappa con i marker singoli.
+* **l’utilizzo di 45.000 marker singoli causa tempi di caricamento estremamente lunghi**
+* il browser deve gestire decine di migliaia di elementi HTML
+* la mappa risultante può **non caricarsi** oppure **bloccarsi** al primo movimento
+
+---
+
+### Mappe con Heatmap
+
+Entrambi gli script generano una mappa di calore.
+La heatmap è leggera e può essere visualizzata senza differenze tra i due file Python.
+
+---
+
+### Analisi con raggruppamento dei meteoriti
+
+Lo script nella cartella **“analisi con raggruppamento dei meteoriti”** utilizza un sistema di cluster per aggregare i punti sulla mappa.
+Questo permette di:
+
+* visualizzare i meteoriti in modo fluido
+* espandere i gruppi tramite zoom
+* analizzare le singole cadute senza blocchi del browser
+
+Questa è la versione consigliata per l’analisi dettagliata.
+
+---
+
+### Analisi con meteoriti singoli
+
+Lo script nella cartella **“analisi con meteoriti singoli”** produce due mappe:
+
+* una con marker singoli
+* una mappa di calore
+
+La mappa con marker singoli non utilizza alcun raggruppamento, quindi il browser deve caricare **45.000+ elementi**.
+Il risultato previsto è:
+
+* caricamento estremamente lento o mancato
+* blocco della pagina al primo spostamento
+* utilizzo praticamente impossibile
+
+Per questi motivi l’uso di questa mappa non è raccomandato.
